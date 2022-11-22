@@ -13,6 +13,7 @@ The YaMDb is a review-aggregation project for film, television, book, music. The
 - Django Rest Framework
 - Simple-JWT
 - GIT
+- SQLite
 
 ### Cloning a repository and switching to it on the command line:
 `https://github.com/IskanderRRR/api_yamdb.git`
