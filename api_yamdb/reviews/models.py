@@ -1,5 +1,51 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth.models import AbstractUser
+
+
+class User(AbstractUser):
+    ROLE_CHOICES = [
+        ('user', 'user'),
+        ('admin', 'admin'),
+        ('moderator', 'moderator'),
+    ]
+    username = models.CharField(
+        max_length=150,
+        unique=True,
+        blank=False,
+        null=False
+    )
+    email = models.EmailField(
+        max_length=254,
+        unique=True,
+        blank=False,
+        null=False
+    )
+    role = models.CharField(
+        'роль',
+        max_length=20,
+        choices=ROLE_CHOICES,
+        default='user',
+        blank=True
+    )
+    bio = models.TextField(
+        'биография',
+        blank=True,
+    )
+    first_name = models.CharField(
+        'имя',
+        max_length=150,
+        blank=True
+    )
+    last_name = models.CharField(
+        'фамилия',
+        max_length=150,
+        blank=True
+    )
+
+    def __str__(self) -> str:
+        return self.username
+
 
 class Category(models.Model):
     """Модель категорий."""
