@@ -7,15 +7,11 @@ from rest_framework.response import Response
 
 from .serializers import (CommentSerializer, ReviewSerializer,
                           TitleListSerializer, CategorySerializer,
-                          GenreSerializer,)
+                          GenreSerializer, TitleCreateSerializer)
 from .permissions import (AdminModeratorAuthorPermission, AdminOnly,
                           IsAdminUserOrReadOnly)
 from reviews.models import Category, Genre, Review, Title, User
 from .filters import TitlesFilter
-from .serializers import (CategorySerializer,
-                          GenreSerializer,
-                          TitleCreateSerializer,
-                          TitleListSerializer,)
 
 
 class TitlesViewSet(viewsets.ModelViewSet):
@@ -48,8 +44,9 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
     @action(detail=False,
             methods=['delete'],
-            url_path=r'(?P<slug>[-\w]+)', )
-            # permission_classes= )
+            url_path=r'(?P<slug>[-\w]+)',
+            permission_classes=(IsAdminUserOrReadOnly,),
+            )
     def slug(self, request, slug):
         category = get_object_or_404(Category, slug=slug)
         category.delete()
@@ -69,8 +66,8 @@ class GenreViewSet(viewsets.ModelViewSet):
 
     @action(detail=False,
             methods=['delete'],
-            url_path=r'(?P<slug>[-\w]+)', )
-            # permission_classes= )
+            url_path=r'(?P<slug>[-\w]+)', 
+            permission_classes=(IsAdminUserOrReadOnly,))
     def slug(self, request, slug):
         genre = get_object_or_404(Genre, slug=slug)
         genre.delete()
