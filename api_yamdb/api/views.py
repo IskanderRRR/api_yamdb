@@ -1,11 +1,11 @@
 from rest_framework import status, viewsets, mixins, filters
-from rest_framework.generics import get_object_or_404
+from rest_framework.generics import get_object_or_404, RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .permissions import IsAdmin, CustomPermission
-from .serializers import RegistrationSerializer, TokenSerializer, UserSerializer
+from .serializers import RegistrationSerializer, TokenSerializer, UserSerializer, UserSerializerRole
 from .pagination import CustomPagination
 
 from reviews.models import User
@@ -60,15 +60,9 @@ class AdminUserViewSet(viewsets.ModelViewSet):
     search_fields = ('username',)
 
 
-class GenericUpdateViewSet(mixins.RetrieveModelMixin,
-                           mixins.UpdateModelMixin,
-                           viewsets.GenericViewSet):
-    pass
-
-
-class MeDetailsViewSet(GenericUpdateViewSet):
+class MeDetailsViewSet(RetrieveUpdateAPIView):
     print('AAAAAA')
-    serializer_class = UserSerializer
+    serializer_class = UserSerializerRole
     permission_classes = (CustomPermission,)
 
     def get_object(self):

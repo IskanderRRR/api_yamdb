@@ -3,8 +3,6 @@ from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 
 from reviews.models import Category, Comment, Genre, Review, Title, User
-
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -24,6 +22,20 @@ class UserSerializer(serializers.ModelSerializer):
         # Использовать метод create_user, который мы
         # написали ранее, для создания нового пользователя.
         return User.objects.create_user(**validated_data)
+
+class UserSerializerRole(UserSerializer):
+
+
+    class Meta:
+        model = User
+        fields = ['email',
+                  'username',
+                  'first_name',
+                  'last_name',
+                  'bio',
+                  'role']
+        read_only_fields = ('role',)
+
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
