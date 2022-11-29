@@ -18,6 +18,7 @@ ROLE_CHOICES = [
     (MODERATOR, MODERATOR),
 ]
 
+
 class UserManager(BaseUserManager):
 
     def create_user(self, username, email, password=None, **extra_fields):
@@ -127,7 +128,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         refresh = RefreshToken.for_user(self)
         return str(refresh.access_token)
 
-
     def generate_confirm_code(self):
         chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
         self.confirmation_code = get_random_string(20, chars)
@@ -153,6 +153,9 @@ class Category(models.Model):
         unique=True,
     )
 
+    class Meta:
+        ordering = ('name',)
+
     def __str__(self) -> str:
         return self.name
 
@@ -168,6 +171,9 @@ class Genre(models.Model):
         max_length=50,
         unique=True,
     )
+
+    class Meta:
+        ordering = ('name',)
 
     def __str__(self) -> str:
         return self.name
@@ -201,6 +207,9 @@ class Title(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    class Meta:
+        ordering = ('name',)
 
 
 class Review(models.Model):
@@ -243,9 +252,6 @@ class Review(models.Model):
             )]
         ordering = ('pub_date',)
 
-    def __str__(self):
-        return self.text
-
 
 class Comment(models.Model):
     review = models.ForeignKey(
@@ -273,6 +279,4 @@ class Comment(models.Model):
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
-
-    def __str__(self):
-        return self.text
+        ordering = ('pub_date',)

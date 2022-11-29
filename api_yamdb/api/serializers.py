@@ -25,8 +25,8 @@ class UserSerializer(serializers.ModelSerializer):
         # написали ранее, для создания нового пользователя.
         return User.objects.create_user(**validated_data)
 
-class UserSerializerRole(UserSerializer):
 
+class UserSerializerRole(UserSerializer):
 
     class Meta:
         model = User
@@ -37,7 +37,6 @@ class UserSerializerRole(UserSerializer):
                   'bio',
                   'role']
         read_only_fields = ('role',)
-
 
 
 class RegistrationSerializer(serializers.ModelSerializer):

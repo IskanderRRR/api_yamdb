@@ -107,7 +107,6 @@ class CategoryViewSet(viewsets.ModelViewSet):
     """
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    pagination_class = PageNumberPagination
     permission_classes = (IsAdminUserOrReadOnly,)
     filter_backends = (filters.SearchFilter,)
     search_fields = ("name",)
@@ -129,14 +128,13 @@ class GenreViewSet(viewsets.ModelViewSet):
     """
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
-    pagination_class = PageNumberPagination
     permission_classes = (IsAdminUserOrReadOnly,)
     filter_backends = (filters.SearchFilter,)
     search_fields = ("name",)
 
     @action(detail=False,
             methods=['delete'],
-            url_path=r'(?P<slug>[-\w]+)', 
+            url_path=r'(?P<slug>[-\w]+)',
             permission_classes=(IsAdminUserOrReadOnly,))
     def slug(self, request, slug):
         genre = get_object_or_404(Genre, slug=slug)

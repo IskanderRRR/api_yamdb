@@ -15,6 +15,17 @@ The YaMDb is a review-aggregation project for film, television, book, music. The
 - GIT
 - SQLite
 
+### User Roles
+- Anonymous - can view descriptions of works, read reviews and comments.
+
+- Authenticated user (user) - can read everything, like Anonymous, can additionally publish reviews and rate works (films / books / songs), can comment on other people's reviews and rate them; can edit and delete their reviews and comments.
+
+- Moderator - the same rights as an Authenticated User plus the right to delete and edit any reviews and comments.
+
+- Administrator (admin) - full rights to manage the project and all its contents. Can create and delete works, categories and genres. Can assign roles to users.
+
+- Django Administrator - Same rights as the Administrator role.
+
 ### Cloning a repository and switching to it on the command line:
 `https://github.com/IskanderRRR/api_yamdb.git`
 
@@ -38,7 +49,10 @@ The virtual environment must use Python 3.7
 
 `pip install -r requirements.txt`
 
-### Run migrations:
+### To start the development server, while in the project directory, run the commands:
 `python manage.py migrate`
-### Run project:
+`python manage.py createsuperuser`
 `python manage.py runserver`
+
+### Documentation is available at the address:
+`http://127.0.0.1:8000/redoc/`
