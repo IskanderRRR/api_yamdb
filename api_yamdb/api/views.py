@@ -1,15 +1,14 @@
-from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import status, viewsets, mixins, filters
+from rest_framework import status, viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.generics import get_object_or_404, RetrieveUpdateAPIView
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .permissions import (IsAdmin, CustomPermission,
-                          AdminModeratorAuthorPermission, AdminOnly,
+                          AdminModeratorAuthorPermission,
                           IsAdminUserOrReadOnly)
 from .serializers import (RegistrationSerializer, TokenSerializer,
                           UserSerializer, UserSerializerRole,
@@ -24,25 +23,30 @@ from reviews.models import Category, Genre, Review, Title, User
 
 class SignUpAPIView(APIView):
     """
-    Разрешить всем пользователям (аутентифицированным и нет) доступ к данному эндпоинту.
+    Разрешить всем пользователям
+    (аутентифицированным и нет) доступ к данному эндпоинту.
     """
     permission_classes = (AllowAny,)
     serializer_class = RegistrationSerializer
 
     def post(self, request):
         user = request.data
-        # Если пользователь существует отправить ему код подтверждения не пытаясь создать нового
+        # Если пользователь существует:
+        # отправить ему код подтверждения не пытаясь создать нового
         if (
-                User.objects.filter(username=user.get('username'), email=user.get('email')).exists()
+                User.objects.filter(username=user.get('username'),
+                                    email=user.get('email')).exists()
         ):
             new_user = User.objects.get(username=user.get('username'))
-            new_user.email_user('Confirmation code', new_user.generate_confirm_code())
+            new_user.email_user('Confirmation code',
+                                new_user.generate_confirm_code())
             return Response('Check email', status=status.HTTP_200_OK)
         serializer = self.serializer_class(data=user)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         new_user = User.objects.get(username=user.get('username'))
-        new_user.email_user('Confirmation code', new_user.generate_confirm_code())
+        new_user.email_user('Confirmation code',
+                            new_user.generate_confirm_code())
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
