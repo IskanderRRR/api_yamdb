@@ -99,6 +99,10 @@ class ReviewSerializer(serializers.ModelSerializer):
             raise ValidationError('Может существовать только один отзыв!')
         return data
 
+    class Meta:
+        fields = '__all__'
+        model = Review
+
 
 class CommentSerializer(serializers.ModelSerializer):
     review = serializers.SlugRelatedField(
@@ -132,7 +136,7 @@ class GenreSerializer(serializers.ModelSerializer):
 class TitleListSerializer(serializers.ModelSerializer):
     genre = GenreSerializer(read_only=True, many=True)
     category = CategorySerializer(read_only=True)
-    rating = serializers.IntegerField()
+    rating = rating = serializers.IntegerField(read_only=True)
 
     class Meta:
         fields = ('id', 'name', 'year', 'genre',
