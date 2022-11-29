@@ -12,10 +12,9 @@ router_v1 = routers.DefaultRouter()
 
 # router.register('users/me/', MeDetailsViewSet, basename='MeDetail')
 router_v1.register('users', AdminUserViewSet, basename='AdminUser')
-router_v1 = routers.DefaultRouter()
-router_v1.register(r'categories', CategoryViewSet, basename='Category')
-router_v1.register(r'genres', GenreViewSet, basename='Genre')
-router_v1.register(r'titles', TitlesViewSet, basename='Title')
+router_v1.register('categories', CategoryViewSet, basename='Category')
+router_v1.register('genres', GenreViewSet, basename='Genre')
+router_v1.register('titles', TitlesViewSet, basename='Title')
 router_v1.register(
     r'titles/(?P<title_id>\d+)/reviews',
     ReviewViewSet,
