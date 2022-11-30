@@ -1,3 +1,4 @@
+from django.db.models import Avg
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, viewsets, filters
 from rest_framework.decorators import action
@@ -76,7 +77,6 @@ class AdminUserViewSet(viewsets.ModelViewSet):
 
 
 class MeDetailsViewSet(RetrieveUpdateAPIView):
-    print('AAAAAA')
     serializer_class = UserSerializerRole
     permission_classes = (CustomPermission,)
 
@@ -88,7 +88,9 @@ class TitlesViewSet(viewsets.ModelViewSet):
     """
     Предоставляет CRUD-действия для произведений.
     """
-    queryset = Title.objects.all()
+    queryset = Title.objects.all().annotate(
+        Avg("reviews__score")
+    ).order_by("name")
     serializer_class = TitleListSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)
