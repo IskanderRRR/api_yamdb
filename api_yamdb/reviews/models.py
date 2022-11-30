@@ -153,9 +153,6 @@ class Category(models.Model):
         unique=True,
     )
 
-    class Meta:
-        ordering = ('name',)
-
     def __str__(self) -> str:
         return self.name
 
@@ -171,9 +168,6 @@ class Genre(models.Model):
         max_length=50,
         unique=True,
     )
-
-    class Meta:
-        ordering = ('name',)
 
     def __str__(self) -> str:
         return self.name
@@ -207,9 +201,6 @@ class Title(models.Model):
 
     def __str__(self) -> str:
         return self.name
-
-    class Meta:
-        ordering = ('name',)
 
 
 class Review(models.Model):
@@ -279,4 +270,3 @@ class Comment(models.Model):
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
-        ordering = ('pub_date',)
