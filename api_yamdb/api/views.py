@@ -8,6 +8,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from .filters import TitlesFilter
 from .permissions import (IsAdmin, CustomPermission,
                           AdminModeratorAuthorPermission,
                           IsAdminUserOrReadOnly)
@@ -17,7 +18,6 @@ from .serializers import (RegistrationSerializer, TokenSerializer,
                           TitleListSerializer, CategorySerializer,
                           GenreSerializer, TitleCreateSerializer)
 from .pagination import CustomPagination
-from .filters import TitlesFilter
 
 from reviews.models import Category, Genre, Review, Title, User
 
