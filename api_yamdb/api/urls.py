@@ -10,7 +10,6 @@ app_name = 'api'
 
 router_v1 = routers.DefaultRouter()
 
-# router.register('users/me/', MeDetailsViewSet, basename='MeDetail')
 router_v1.register('users', AdminUserViewSet, basename='AdminUser')
 router_v1.register('categories', CategoryViewSet, basename='Category')
 router_v1.register('genres', GenreViewSet, basename='Genre')
