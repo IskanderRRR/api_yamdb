@@ -8,6 +8,8 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.crypto import get_random_string
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from api_yamdb.reviews.validators import validator_year
+
 USER = 'user'
 ADMIN = 'admin'
 MODERATOR = 'moderator'
@@ -138,6 +140,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         return value == self.confirmation_code
 
     class Meta:
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
         ordering = ('username',)
 
 
@@ -157,7 +161,10 @@ class Category(models.Model):
         return self.name
 
     class Meta:
+        verbose_name = "Категория"
+        verbose_name_plural = "Категории"
         ordering = ('name',)
+
 
 class Genre(models.Model):
     """Модель жанров."""
@@ -175,7 +182,10 @@ class Genre(models.Model):
         return self.name
 
     class Meta:
+        verbose_name = "Жанр"
+        verbose_name_plural = "Жанры"
         ordering = ('name',)
+
 
 class Title(models.Model):
     """Модель произведений."""
@@ -185,6 +195,7 @@ class Title(models.Model):
     )
     year = models.PositiveSmallIntegerField(
         verbose_name='Год выхода',
+        validators=[validator_year],
     )
     description = models.TextField(
         blank=True,
@@ -207,7 +218,10 @@ class Title(models.Model):
         return self.name
 
     class Meta:
+        verbose_name = "Произведние"
+        verbose_name_plural = "Произведния"
         ordering = ('name',)
+
 
 class Review(models.Model):
     title = models.ForeignKey(
