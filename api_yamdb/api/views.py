@@ -31,20 +31,10 @@ class SignUpAPIView(APIView):
 
     def post(self, request):
         user = request.data
-        # Если пользователь существует:
-        # отправить ему код подтверждения не пытаясь создать нового
-        if (
-                User.objects.filter(username=user.get('username'),
-                                    email=user.get('email')).exists()
-        ):
-            new_user = User.objects.get(username=user.get('username'))
-            new_user.email_user('Confirmation code',
-                                new_user.generate_confirm_code())
-            return Response('Check email', status=status.HTTP_200_OK)
         serializer = self.serializer_class(data=user)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
-        new_user = User.objects.get(username=user.get('username'))
+        new_user, created = User.objects.get_or_create(username=user.get('username'),
+                                                       email=user.get('email'))
         new_user.email_user('Confirmation code',
                             new_user.generate_confirm_code())
         return Response(serializer.data, status=status.HTTP_200_OK)

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
+from rest_framework.validators import UniqueValidator
 
 from reviews.models import Category, Comment, Genre, Review, Title, User
 
@@ -27,7 +28,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserSerializerRole(UserSerializer):
-
     class Meta:
         model = User
         fields = ['email',
@@ -39,13 +39,28 @@ class UserSerializerRole(UserSerializer):
         read_only_fields = ('role',)
 
 
-class RegistrationSerializer(serializers.ModelSerializer):
+class RegistrationSerializer(serializers.Serializer):
     """ Сериализация регистрации пользователя и создания нового. """
+
+    username = serializers.SlugField(
+    )
+    email = serializers.EmailField(
+    )
 
     class Meta:
         model = User
-        fields = ['email',
-                  'username']
+        fields = ['username',
+                  'email']
+
+    def validate(self, data):
+        if (User.objects.filter(username=data.get('username'),
+                                   email=data.get('email')).exists()):
+            return data
+        if User.objects.filter(email=data.get('email')).exists():
+            raise ValidationError('Такой емайл уже есть у другого username')
+        if User.objects.filter(username=data.get('username')).exists():
+            raise ValidationError('Такой username уже зарегестрирован с другим мылом')
+        return data
 
     def validate_username(self, value):
         if value == 'me':
@@ -119,14 +134,12 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Category
         fields = ('name', 'slug')
 
 
 class GenreSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Genre
         fields = ('name', 'slug')
