@@ -33,8 +33,9 @@ class SignUpAPIView(APIView):
         user = request.data
         serializer = self.serializer_class(data=user)
         serializer.is_valid(raise_exception=True)
-        new_user, created = User.objects.get_or_create(username=user.get('username'),
-                                                       email=user.get('email'))
+        new_user, created = User.objects.get_or_create(
+            username=user.get('username'),
+            email=user.get('email'))
         new_user.email_user('Confirmation code',
                             new_user.generate_confirm_code())
         return Response(serializer.data, status=status.HTTP_200_OK)
