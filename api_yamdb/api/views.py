@@ -18,7 +18,6 @@ from .serializers import (RegistrationSerializer, TokenSerializer,
                           TitleListSerializer, CategorySerializer,
                           GenreSerializer, TitleCreateSerializer)
 from .pagination import CustomPagination
-
 from reviews.models import Category, Genre, Review, Title, User
 
 
@@ -89,8 +88,8 @@ class TitlesViewSet(viewsets.ModelViewSet):
     Предоставляет CRUD-действия для произведений.
     """
     queryset = Title.objects.all().annotate(
-        Avg("reviews__score")
-    ).order_by("name")
+        Avg('reviews__score')
+    ).order_by('name')
     serializer_class = TitleListSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)
