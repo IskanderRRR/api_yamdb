@@ -156,6 +156,8 @@ class Category(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    class Meta:
+        ordering = ('name',)
 
 class Genre(models.Model):
     """Модель жанров."""
@@ -172,6 +174,8 @@ class Genre(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    class Meta:
+        ordering = ('name',)
 
 class Title(models.Model):
     """Модель произведений."""
@@ -202,6 +206,8 @@ class Title(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    class Meta:
+        ordering = ('name',)
 
 class Review(models.Model):
     title = models.ForeignKey(
@@ -269,3 +275,4 @@ class Comment(models.Model):
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
+        ordering = ('pub_date',)
