@@ -83,6 +83,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=150,
         blank=True
     )
+    # про is_staff не забыли, а для чего?
     is_staff = models.BooleanField(
         default=False
     )
