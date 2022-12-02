@@ -83,11 +83,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=150,
         blank=True
     )
-    # про is_staff не забыли
     is_staff = models.BooleanField(
         default=False
     )
-
     confirmation_code = models.CharField(
         'Код подтверждения',
         max_length=21

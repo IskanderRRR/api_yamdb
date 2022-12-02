@@ -35,18 +35,22 @@ class SignUpAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         if (User.objects.filter(username=serializer.data.get('username'),
                                 email=serializer.data.get('email')).exists()):
-            new_user, created = User.objects.get_or_create(username=serializer.data.get('username'),
-                                                           email=serializer.data.get('email'))
+            new_user, created = User.objects.get_or_create(
+                username=serializer.data.get('username'),
+                email=serializer.data.get('email'))
             new_user.email_user('Confirmation code',
                                 new_user.generate_confirm_code())
         if User.objects.filter(email=serializer.data.get('email')).exists():
             raise Exception('Такой емайл уже есть у другого username')
-        if User.objects.filter(username=serializer.data.get('username')).exists():
-            raise Exception('Такой username уже зарегестрирован с другим мылом')
+        if User.objects.filter(
+                username=serializer.data.get('username')).exists():
+            raise Exception(
+                'Такой username уже зарегистрирован с другим мылом')
         if serializer.data.get('username') == 'me':
             raise Exception('me не может быть username')
-        new_user, created = User.objects.get_or_create(username=serializer.data.get('username'),
-                                                       email=serializer.data.get('email'))
+        new_user, created = User.objects.get_or_create(
+            username=serializer.data.get('username'),
+            email=serializer.data.get('email'))
         new_user.email_user('Confirmation code',
                             new_user.generate_confirm_code())
         return Response(serializer.data, status=status.HTTP_200_OK)
