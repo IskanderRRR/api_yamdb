@@ -218,8 +218,8 @@ class Title(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = "Произведние"
-        verbose_name_plural = "Произведния"
+        verbose_name = 'Произведние'
+        verbose_name_plural = 'Произведния'
         ordering = ('name',)
 
 

@@ -41,10 +41,8 @@ class UserSerializerRole(UserSerializer):
 class RegistrationSerializer(serializers.Serializer):
     """ Сериализация регистрации пользователя и создания нового. """
 
-    username = serializers.SlugField(
-    )
-    email = serializers.EmailField(
-    )
+    username = serializers.SlugField()
+    email = serializers.EmailField()
 
     class Meta:
         model = User
