@@ -8,7 +8,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.crypto import get_random_string
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from api_yamdb.reviews.validators import validator_year
+from .validators import validator_year
 
 USER = 'user'
 ADMIN = 'admin'
@@ -83,7 +83,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=150,
         blank=True
     )
-    is_staff = models.BooleanField(default=False)
+    # про is_staff не забыли
+    is_staff = models.BooleanField(
+        default=False
+    )
 
     confirmation_code = models.CharField(
         'Код подтверждения',
