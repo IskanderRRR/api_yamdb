@@ -35,8 +35,9 @@ class SignUpAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         if (User.objects.filter(username=serializer.data.get('username'),
                                 email=serializer.data.get('email')).exists()):
-            new_user, created = User.objects.get_or_create(username=serializer.data.get('username'),
-                                                           email=serializer.data.get('email'))
+            new_user, created = User.objects.get_or_create(
+                username=serializer.data.get('username'),
+                email=serializer.data.get('email'))
             new_user.email_user('Confirmation code',
                                 new_user.generate_confirm_code())
         if User.objects.filter(email=serializer.data.get('email')).exists():

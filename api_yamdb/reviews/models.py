@@ -83,11 +83,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=150,
         blank=True
     )
-    # про is_staff не забыли
     is_staff = models.BooleanField(
         default=False
     )
-
     confirmation_code = models.CharField(
         'Код подтверждения',
         max_length=21
@@ -143,8 +141,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         return value == self.confirmation_code
 
     class Meta:
-        verbose_name = "Пользователь"
-        verbose_name_plural = "Пользователи"
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
         ordering = ('username',)
 
 
@@ -164,8 +162,8 @@ class Category(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = "Категория"
-        verbose_name_plural = "Категории"
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
         ordering = ('name',)
 
 
@@ -185,8 +183,8 @@ class Genre(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = "Жанр"
-        verbose_name_plural = "Жанры"
+        verbose_name = 'Жанр'
+        verbose_name_plural = 'Жанры'
         ordering = ('name',)
 
 
@@ -221,8 +219,8 @@ class Title(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = "Произведние"
-        verbose_name_plural = "Произведния"
+        verbose_name = 'Произведние'
+        verbose_name_plural = 'Произведния'
         ordering = ('name',)
 
 
