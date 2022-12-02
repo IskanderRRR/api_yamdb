@@ -41,15 +41,35 @@ class UserSerializerRole(UserSerializer):
 class RegistrationSerializer(serializers.Serializer):
     """ Сериализация регистрации пользователя и создания нового. """
 
-    username = serializers.SlugField()
-    email = serializers.EmailField()
+    username = serializers.SlugField(
+    )
+    email = serializers.EmailField(
+    )
 
     class Meta:
         model = User
         fields = ['username',
                   'email']
 
+    def validate(self, data):
+        if (User.objects.filter(username=data.get('username'),
+                                email=data.get('email')).exists()):
+            return data
+        if User.objects.filter(email=data.get('email')).exists():
+            raise ValidationError('Такой емайл уже есть у другого username')
+        if User.objects.filter(username=data.get('username')).exists():
+            raise ValidationError(
+                'Такой username уже зарегестрирован с другим мылом')
+        return data
+
+    def validate_username(self, value):
+        if value == 'me':
+            raise serializers.ValidationError('me не может быть username')
+        return value
+
     def create(self, validated_data):
+        # Использовать метод create_user, который мы
+        # написали ранее, для создания нового пользователя.
         return User.objects.create_user(**validated_data)
 
 
