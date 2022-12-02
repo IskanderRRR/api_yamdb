@@ -52,21 +52,6 @@ class RegistrationSerializer(serializers.Serializer):
         fields = ['username',
                   'email']
 
-    def validate(self, data):
-        if (User.objects.filter(username=data.get('username'),
-                                   email=data.get('email')).exists()):
-            return data
-        if User.objects.filter(email=data.get('email')).exists():
-            raise ValidationError('Такой емайл уже есть у другого username')
-        if User.objects.filter(username=data.get('username')).exists():
-            raise ValidationError('Такой username уже зарегестрирован с другим мылом')
-        return data
-
-    def validate_username(self, value):
-        if value == 'me':
-            raise serializers.ValidationError('me не может быть username')
-        return value
-
     def create(self, validated_data):
         # Использовать метод create_user, который мы
         # написали ранее, для создания нового пользователя.

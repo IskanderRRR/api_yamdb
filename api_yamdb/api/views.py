@@ -40,11 +40,11 @@ class SignUpAPIView(APIView):
             new_user.email_user('Confirmation code',
                                 new_user.generate_confirm_code())
         if User.objects.filter(email=serializer.data.get('email')).exists():
-            raise Exception('Такой емайл уже есть у другого username')
+            return Response('Такой емайл уже есть у другого username', status=status.HTTP_400_BAD_REQUEST)
         if User.objects.filter(username=serializer.data.get('username')).exists():
-            raise Exception('Такой username уже зарегестрирован с другим мылом')
+            return Response('Такой username уже зарегестрирован с другим мылом', status=status.HTTP_400_BAD_REQUEST)
         if serializer.data.get('username') == 'me':
-            raise Exception('me не может быть username')
+            return Response('me не может быть username', status=status.HTTP_400_BAD_REQUEST)
         new_user, created = User.objects.get_or_create(username=serializer.data.get('username'),
                                                        email=serializer.data.get('email'))
         new_user.email_user('Confirmation code',
